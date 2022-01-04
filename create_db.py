@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from models import Users, db, Offers, Orders
 
 def read_json(name):
@@ -12,12 +11,6 @@ def read_json(name):
 def create_table(path, class_name):
     obj = read_json(path)
     for item in obj:
-        if item.get('start_date', False):
-            date_time_obj = datetime.strptime(item['start_date'], '%m/%d/%Y').date()
-            item['start_date'] = date_time_obj
-        if item.get('end_date', False):
-            date_time_obj = datetime.strptime(item['end_date'], '%m/%d/%Y').date()
-            item['end_date'] = date_time_obj
         user = class_name(**item)
         db.session.add(user)
         db.session.commit()
