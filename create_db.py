@@ -31,7 +31,7 @@ def change_users():
 
 if __name__ == '__main__':
     db.create_all()
-    create_table('Users.json', Users)
-    create_table('Offers.json', Offers)
-    create_table('Orders.json', Orders)
+    create_table('json_files/Users.json', Users)
+    create_table('json_files/Offers.json', Offers)
+    create_table('json_files/Orders.json', Orders)
     #change_users()

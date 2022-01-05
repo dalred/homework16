@@ -1,23 +1,26 @@
 from main import db
 
-class Model(object):
-    @classmethod
-    def update(cls,row_id, **kwargs):
-        obj = cls.query.get(row_id)
-        print(obj)
+class Model(db.Model):
+    __abstract__ = True
+
+    def update(self, **kwargs):
         for k, v in kwargs.items():
-            setattr(obj, k, v)
-        db.session.add(obj)
+            setattr(self, k, v)
+        db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def add_user(cls, **kwargs):
+    def add(cls, **kwargs):
         obj = cls(**kwargs)
         db.session.add(obj)
         db.session.commit()
 
-    @classmethod
-    def delete(cls, row_id):
-        obj = cls.query.get(row_id)
-        db.session.delete(obj)
+    # @classmethod
+    # def delete(cls, id):
+    #     user_id = db.session.query(cls).get(id)
+    #     db.session.delete(user_id)
+    #     db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()

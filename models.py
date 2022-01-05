@@ -1,7 +1,7 @@
 from main import db
 from func_models import Model
 
-class Users(Model, db.Model):
+class Users(Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String)
@@ -13,9 +13,7 @@ class Users(Model, db.Model):
 
 
 
-
-
-class Offers(Model,db.Model):
+class Offers(Model):
     __tablename__ = 'offers'
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer)
@@ -23,7 +21,7 @@ class Offers(Model,db.Model):
     executor = db.relationship("Users")
 
 
-class Orders(Model, db.Model):
+class Orders(Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)

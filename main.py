@@ -6,7 +6,7 @@ from models import *
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/test_database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_AS_ASCII'] = False
 app.config['JSON_SORT_KEYS'] = False
@@ -17,79 +17,80 @@ db = SQLAlchemy(app)
 
 @app.route("/users", methods=["GET", "POST"])
 def page_users():
-    users = db.session.query(Users).all()
+    users = Users.query.all()
     if request.method == "GET":
         return make_response(jsonify(get_dict(users), 200))
     if request.method == "POST":
         data = request.json
-        Users.add_user(**data)
+        #schema=Users()
+        #schema.add(**data)
+        Users.add(**data)
         return make_response(jsonify(data), 200)
 
 # Get пользователь, PUT - обновление таблицы, Delete удаление записи
 @app.route("/users/<int:id>", methods=["GET", "PUT", "DELETE"])
 def page_users_id(id):
-    user_id = db.session.query(Users).get(id)
+    user_id = Users.query.get(id)
     if request.method == "GET":
         return make_response(jsonify(get_dict([user_id]), 200))
     if request.method == "PUT":
         data = request.json
         # я решил сделать так, если у кого есть идеи лучше, поделитесь.
-        Users.update(id, **data)
+        user_id.update(**data)
         return make_response(jsonify(data), 200)
     if request.method == "DELETE":
-        Users.delete(id)
+        #Users.delete(user_id)
+        user_id.delete()
         return make_response(jsonify(get_dict([user_id]), 200))
 
 
 @app.route("/orders", methods=["GET", "POST"])
 def page_orders():
-    orders = db.session.query(Orders).all()
+    orders = Orders.query.all()
     if request.method == "GET":
         return make_response(jsonify(get_dict(orders), 200))
     if request.method == "POST":
         data = request.json
-        Orders.add_user(**data)
+        Orders.add(**data)
         return make_response(jsonify(data), 200)
 
 
 @app.route("/orders/<int:id>", methods=["GET", "PUT", "DELETE"])
 def page_orders_id(id):
-    orders_id = db.session.query(Orders).get(id)
+    orders_id = Orders.query.get(id)
     if request.method == "GET":
         return make_response(jsonify(get_dict([orders_id]), 200))
     if request.method == "PUT":
         data = request.json
-        # я решил сделать так, если у кого есть идеи лучше, поделитесь.
-        Orders.update(id, **data)
+        orders_id.update(**data)
         return make_response(jsonify(data), 200)
     if request.method == "DELETE":
-        Orders.delete(id)
+        orders_id.delete()
         return make_response(jsonify(get_dict([orders_id]), 200))
 
 
 @app.route("/offers", methods=["GET", "POST"])
 def page_offers():
-    offers = db.session.query(Offers).all()
+    offers = Offers.query.all()
     if request.method == "GET":
         return make_response(jsonify(get_dict(offers), 200))
     if request.method == "POST":
         data = request.json
-        Offers.add_user(**data)
+        Offers.add(**data)
         return make_response(jsonify(data), 200)
 
 
 @app.route("/offers/<int:id>", methods=['get'])
 def page_offers_id(id):
-    offers_id = db.session.query(Offers).get(id)
+    offers_id = Offers.query.get(id)
     if request.method == "GET":
         return make_response(jsonify(get_dict([offers_id]), 200))
     if request.method == "PUT":
         data = request.json
-        # я решил сделать так, если у кого есть идеи лучше, поделитесь.
-        Offers.update(id, **data)
+        offers_id.update(**data)
         return make_response(jsonify(data), 200)
     if request.method == "DELETE":
-        Offers.delete(id)
+        offers_id.delete()
         return make_response(jsonify(get_dict([offers_id]), 200))
 
 
